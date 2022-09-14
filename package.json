@@ -1,0 +1,26 @@
+{
+  "name": "sdtraining",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write .",
+    "prepare": "husky install",
+    "nodemon": "./node_modules/.bin/nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-winston": "^4.2.0",
+    "googleapis": "^107.0.0",
+    "helmet": "^5.1.1",
+    "nodemon": "^2.0.19",
+    "winston": "^3.8.1"
+  }
+}
