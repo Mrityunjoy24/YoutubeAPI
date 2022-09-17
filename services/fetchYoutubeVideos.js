@@ -49,7 +49,7 @@ let generateNewKey = async (oldKeyNumber) => {
     return newKey;
 }
 
-let fetchYoutubeVideos = async () => {
+let fetchYoutubeVideos = async function() {
     try {
         // let publishedAfter = await Video.find().sort({ "publishTime": -1 }).limit(1);
         let request = {
