@@ -21,7 +21,7 @@ let fetchYoutubeVideos = async () => {
         let request = {
             part: 'snippet',
             q: 'cricket',
-            maxResults: '10',
+            maxResults: '20',
             publishedAfter: publishedAfter.length > 0 ? publishedAfter[0]._doc.publishTime : initPublishDate
         }
         console.log("fetching youtube data");
