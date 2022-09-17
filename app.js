@@ -8,17 +8,23 @@ const expressWinston = require("express-winston");
 const helmet = require("helmet");
 
 const mongoose = require('mongoose');
-const fetchAllVideos = require("./fetchAllVideos");
-const fetchYoutubeVideos = require("./fetchYoutubeVideos");
-const searchVideos = require("./searchVideos");
-
+const fetchAllVideos = require("./controllers/fetchVideosFromDBController");
+const fetchYoutubeVideos = require("./services/fetchYoutubeVideos");
+const searchVideos = require("./controllers/searchController");
+const Apikeys = require("./models/keysModel");
+const generateKeysDataAndPushToDB = require("./helper/generateKeysData");
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-db.once('open', function () {
+db.once('open', async function () {
     console.log("we are connected to database YoutubeVideos");
+    // checking first if data is already there if not then create it
+    let keysData = await Apikeys.find({});
+    if (keysData.length == 0) {
+        generateKeysDataAndPushToDB();
+    }
 });
 
 setInterval(fetchYoutubeVideos, 10000);

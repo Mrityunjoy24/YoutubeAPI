@@ -1,7 +1,7 @@
 "use strict";
-
+const apiKeys = require("../helper/apiKeys")
 let config = {
-  API_KEY: process.env.YOUTUBE_API_KEY,
+  API_KEY: apiKeys,
   PORT: process.env.PORT,
   DATABASE: "YoutubeVideosSecond",
   VERSION: "v3",
