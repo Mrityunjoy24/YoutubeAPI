@@ -11,27 +11,30 @@ let Video = require("../models/videoModel")
 
 let fetchAllVideos = async (req, res) => {
     try {
-        let publishedTime = req.query.publishedTime;
-        if (!publishedTime) {
-            publishedTime = new Date().toISOString();
-        }
-
+        let nextPage = req.query.nextPage;
         let limit = req.query.limit;
         if (!limit) {
             limit = config.LIMIT;
         }
 
-        let allVideos = await Video.find({ publishTime: { $lt: publishedTime } }).sort({ "publishTime": -1 }).limit(limit).exec();
+        let allVideos;
+        if (!nextPage) {
+            let currentTime = new Date().toISOString();
+            allVideos = await Video.find({ publishTime: { $lte: currentTime } }).sort({ "publishTime": -1, "_id": -1 }).limit(limit).exec();
+        }
+        else {
+            allVideos = await Video.find({ _id: { $lt: nextPage } }).sort({ "publishTime": -1, "_id": -1 }).limit(limit).exec();
+        }
 
         let response = {};
         response.data = allVideos;
-        response.prevPage = publishedTime;
-        if (allVideos.length > 0) {
-            response.hasNextPage = true
-            response.nextPage = allVideos[allVideos.length - 1]._doc.publishTime;
+        response.prevPage = allVideos[0]._doc._id;
+        if (allVideos.length < 5) {
+            response.hasNextPage = false
         }
         else {
-            response.hasNextPage = false
+            response.hasNextPage = true
+            response.nextPage = allVideos[allVideos.length - 1]._doc._id;
         }
 
         res.status(200).json(response);
