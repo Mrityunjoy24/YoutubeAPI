@@ -21,7 +21,7 @@ db.once('open', function () {
     console.log("we are connected to database YoutubeVideos");
 });
 
-// setInterval(fetchYoutubeVideos, 10000);
+setInterval(fetchYoutubeVideos, 10000);
 
 app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.json());
