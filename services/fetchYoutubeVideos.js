@@ -52,7 +52,6 @@ let generateNewKey = async (oldKeyNumber) => {
 let fetchYoutubeVideos = async () => {
     try {
         // let publishedAfter = await Video.find().sort({ "publishTime": -1 }).limit(1);
-
         let request = {
             part: 'snippet',
             q: 'cricket',
@@ -62,16 +61,11 @@ let fetchYoutubeVideos = async () => {
 
         console.log("fetching youtube data");
         let res = await youtube.search.list(request);
-        // if exhausted 
-
         let videosData = res.data.items;
         saveToDB(videosData);
 
-
-        console.log("---------------------\n");
-        //Video title, description, publishing datetime, thumbnails URLs and any other fields you require
     } catch (error) {
-        // console.error(error);
+        // if limit exhausted generate new key
         keyNumber = await generateNewKey(keyNumber);
         console.log(`new key generated:${keyNumber}`)
         if (keyNumber == -1) {

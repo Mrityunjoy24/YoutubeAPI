@@ -13,16 +13,20 @@ let fetchAllVideos = async (req, res) => {
     try {
         let nextPage = req.query.nextPage;
         let limit = req.query.limit;
+        // if limit is given set default limit
         if (!limit) {
             limit = config.LIMIT;
         }
 
         let allVideos;
+        // if next page is not given search by current time
         if (!nextPage) {
             let currentTime = new Date().toISOString();
+            //sort by publishTime and then by _id
             allVideos = await Video.find({ publishTime: { $lte: currentTime } }).sort({ "publishTime": -1, "_id": -1 }).limit(limit).exec();
         }
         else {
+             //sort by publishTime and then by _id and find all data 
             allVideos = await Video.find({ _id: { $lt: nextPage } }).sort({ "publishTime": -1, "_id": -1 }).limit(limit).exec();
         }
 

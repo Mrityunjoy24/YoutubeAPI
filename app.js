@@ -20,7 +20,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', async function () {
     console.log("we are connected to database YoutubeVideos");
-    // checking first if data is already there if not then create it
+    // checking first if keys data is already there if not then create it
+    // it store if key is already exhausted or not
     let keysData = await Apikeys.find({});
     if (keysData.length == 0) {
         generateKeysDataAndPushToDB();
